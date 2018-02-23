@@ -1,0 +1,21 @@
+{
+  "name": "trb-bot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "dev": "nodemon ./src/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bot-brother": "^2.1.5",
+    "md5": "^2.2.1",
+    "mongoose": "^5.0.6",
+    "node-telegram-bot-api": "^0.30.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.15.0"
+  },
+  "description": ""
+}
