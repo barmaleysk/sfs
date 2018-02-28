@@ -386,8 +386,7 @@ function printNumbersInterval() {
             .then(user => {
                 user.forEach(user => {
                     if (user) {
-                        user.isBiloPriglashenie = true
-                        user.save()
+
                         bot.sendMessage(user.chatId, "Погнали, ты принят", {
                             reply_markup: {
                                 //Формирование ссылки на приват чат
@@ -410,6 +409,9 @@ function printNumbersInterval() {
                             })
                         }, 1500);
 
+                        user.isBiloPriglashenie = true
+                        user.save()
+
                     }
                 })
             })
@@ -421,6 +423,9 @@ function printNumbersInterval() {
                 user.forEach(user => {
                     if (user) {
                         //поменять!!!!
+                        if(user.isBiloPriglashenie === true) {
+                            bot.sendMessage(user.chatId, 'Поздравляем, платеж прошел успешно!')
+                        }
                         user.days = user.days + 30
                         if(user.isBilaOlata === false) {
                             user.isBilaOlata = true
@@ -476,7 +481,7 @@ function printNumbersInterval() {
 
 
 
-    }, 30000);
+    }, 10000);
 }
 
 
