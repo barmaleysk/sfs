@@ -422,6 +422,11 @@ function printNumbersInterval() {
                     if (user) {
                         //поменять!!!!
                         user.days = user.days + 30
+                        if(user.isBilaOlata === false) {
+                            user.isBilaOlata = true
+                            user.save()
+                            console.log(user)
+                        }
                         user.tempOplata = false
                         user.save()
 
