@@ -13,7 +13,7 @@ var colvoref2
 var colvoref3
 
 var md5 = require('md5');
-const merchId = 68539
+const merchId = 69152
 const payCost = 5000
 var isStart = false
 //конец переменных
@@ -56,6 +56,7 @@ bot.on('message', msg=> {
 
                        /////
 //Это сейчас нам только помогает. В дальнейшем переменная меняется в php
+                                /*
                        User.findOne({telegramId: userId}).then(user => {
                            if(user.isBilaOlata === false) {
                                user.isBilaOlata = true
@@ -64,9 +65,10 @@ bot.on('message', msg=> {
                                console.log(user)
                            }
                        })
-                       ///Создание ссылки оплаты
+                       */
+                       ///Создание ссылки оплаты. Сверху там кароч тестовый вариант оплаты
                        const zakazNumber = userId
-                       const secWord = 'd0z9660n'
+                       const secWord = 'g3ciap4h'
                        const createMD5 = md5 (merchId + ':' + payCost + ':' + secWord + zakazNumber)
                        const urlOplati = 'http://www.free-kassa.ru/merchant/cash.php' + '?' + 'm=' +
                            + merchId + '&' + "oa=" + payCost + '&' + "o=" + zakazNumber + '&' + "s=" + createMD5
