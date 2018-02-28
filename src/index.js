@@ -7,12 +7,16 @@ const User = mongoose.model('users')
 const kb = require('./keyboard-buttons')
 const keyboard = require('./keyboard')
 mongoose.connect(DB_URL).then(() => console.log('MongoDb Connected'))
+//переменные
+var colvoref1
+var colvoref2
+var colvoref3
 
 var md5 = require('md5');
 const merchId = 68539
 const payCost = 5000
 var isStart = false
-
+//конец переменных
 
 bot = new TelegramBot(TOKEN, {
     polling: true
@@ -47,7 +51,6 @@ bot.on('message', msg=> {
                                 user.email = msg.text
                                 user.isFullRegistered = true
                                 user.save()
-                                console.log('Email сохранен. Вы зареганы')
                                 console.log(user)
                                 bot.sendMessage(chatId, "Вы успешно зареганы!")
 
@@ -70,16 +73,19 @@ bot.on('message', msg=> {
 //"ID Вашего магазина:Сумма платежа:Секретное слово:Номер заказа", пример
                                 user.urlOplati = urlOplati
                                 user.save()
-                       bot.sendMessage(chatId, 'Оплатить: ', {
-                           reply_markup: {
-                               inline_keyboard : [
-                                   [{
-                                       text: 'Оплатить 500k',
-                                       url: urlOplati
-                                   }]
-                               ]
-                           }
-                       })
+                                setTimeout(function() {
+                                    bot.sendMessage(chatId, 'Оплатить: ', {
+                                        reply_markup: {
+                                            inline_keyboard : [
+                                                [{
+                                                    text: 'Оплатить 500k',
+                                                    url: urlOplati
+                                                }]
+                                            ]
+                                        }
+                                    })
+                                }, 1500);
+
 
 
                             }
@@ -87,7 +93,6 @@ bot.on('message', msg=> {
 // Файл пустой, начит пишем в него имя!
                             user.name = msg.text
                             user.save()
-                            console.log('Имя сохранено. Впишите email')
                             bot.sendMessage(chatId, 'Введите email')
 
                         }
@@ -120,7 +125,9 @@ bot.on('message', msg=> {
 
                         user.isStartedRegistration = true
                         user.save()
-                        bot.sendMessage(chatId, 'Введите имя')
+                        setTimeout(function() {
+                            bot.sendMessage(chatId, 'Введите имя')
+                        }, 1500);
 
                         break
                 }
@@ -169,33 +176,15 @@ bot.on('message', msg=> {
                             })
                             break
                         case kb.gl.refset:
-                            var colvoref1
-                            var colvoref2
-                            var colvoref3
-                            User.find({refer1: userId}).then(user => {
-                                if(user.refer1){
-                                    colvoref1 = user.length
-                                } else {
-                                    colvoref1 = 0
-                                }
 
-
+                            User.count({refer1: userId}).then(userscount => {
+                                colvoref1 = userscount
                             })
-                            User.find({refer2: userId}).then(user => {
-                                if(user.refer2){
-                                    colvoref2 = user.length
-                                } else {
-                                    colvoref2 = 0
-                                }
-
+                            User.count({refer2: userId}).then(usercounttwo => {
+                                colvoref2 = usercounttwo
                             })
-                            User.find({refer3: userId}).then(user => {
-                                if(user.refer3){
-                                    colvoref3 = user.length
-                                } else {
-                                    colvoref3 = 0
-                                }
-
+                            User.count({refer3: userId}).then(usercounttre => {
+                                colvoref3 = usercounttre
                             })
 
                             bot.sendMessage(chatId, 'Ваша реф сеть:\n Рефералов 1 уровня: ' + colvoref1 + "\n" +
@@ -204,8 +193,8 @@ bot.on('message', msg=> {
                             break
                         case kb.gl.refurl:
                             const reftempUr = 'https://telegram.me/TRBets_bot?start=' + userId
-                            bot.sendMessage(chatId, 'Ваша реф ссылка. Все пользователи, которые по ней перейдут,' +
-                                'автоматически закрепляются за вами: ' + reftempUr)
+                            bot.sendMessage(chatId, 'Ваша реф ссылка.\nВсе пользователи, которые по ней перейдут,' +
+                                'автоматически закрепляются за вами:\n' + reftempUr)
                             break
                         case kb.gl.spravka:
                             bot.sendMessage(chatId, 'Немного инфы по ставкам')
@@ -411,11 +400,14 @@ function printNumbersInterval() {
                                 //keyboard: keyboard.glMenu
                             }
                         })
-                        bot.sendMessage(user.chatId, "Главное меню, будь здоров", {
-                            reply_markup: {
-                                keyboard: keyboard.glMenu
-                            }
-                        })
+                        setTimeout(function() {
+                            bot.sendMessage(user.chatId, "Главное меню, будь здоров", {
+                                reply_markup: {
+                                    keyboard: keyboard.glMenu
+                                }
+                            })
+                        }, 1500);
+
                     }
                 })
             })
@@ -477,7 +469,7 @@ function printNumbersInterval() {
 
 
 
-    }, 5000);
+    }, 30000);
 }
 
 
@@ -496,17 +488,19 @@ function deleteDays() {
                 //Если юзер оплатил когда то, и если его дни равны 0 и он не забанен
                 // = бан, если же оплатил и не равны нулю, но забанен = разбан
                 if (user.isBilaOlata === true) {
-                    if (user.days === 0){
-                        if (user.isBanned === false){
-                            user.isBanned = true
-                            user.save()
-                            bot.sendMessage(user.chatId, 'Я вас баню!')
-                        }
-                    } else {
-                        if(user.isBanned === true) {
-                            user.isBanned = false
-                            user.save()
-                            bot.sendMessage(user.chatId, 'Я вас разбанил!')
+                    if (user.isBiloPriglashenie === true) {
+                        if (user.days === 0) {
+                            if (user.isBanned === false) {
+                                user.isBanned = true
+                                user.save()
+                                bot.sendMessage(user.chatId, 'Я вас баню!')
+                            }
+                        } else {
+                            if (user.isBanned === true) {
+                                user.isBanned = false
+                                user.save()
+                                bot.sendMessage(user.chatId, 'Я вас разбанил!')
+                            }
                         }
                     }
 
@@ -517,7 +511,7 @@ function deleteDays() {
             })
             }
         })
-    }, 10000)
+    }, 30000)
 }
 
 
