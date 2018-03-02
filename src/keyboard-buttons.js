@@ -1,10 +1,10 @@
 module.exports = {
     firstQuest: {
-        soglasieOne: "Да я все посмотрел, пустите дальше!"
+        soglasieOne: "Я всё изучил"
     },
     secondQuest: {
         opltatit: "Оплатить франшизу",
-        ostalVopr: "Остались вопросы!"
+        ostalVopr: "Остались вопросы"
     },
     gl:{
         stat: "Статистика",

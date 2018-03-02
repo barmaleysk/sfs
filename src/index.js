@@ -14,7 +14,7 @@ var colvoref3
 
 var md5 = require('md5');
 const merchId = 69152
-const payCost = 5000
+const payCost = 2000
 var isStart = false
 //конец переменных
 
@@ -43,72 +43,12 @@ bot.on('message', msg=> {
                 //юзер есть уже
 
 
-                if (user.isStartedRegistration === true) {
-                    if (user.isFullRegistered === false) {
-                        if (user.name) {
-                            if (user.email) {
-                            } else {
-                                user.email = msg.text
-                                user.isFullRegistered = true
-                                user.save()
-                                console.log(user)
-                                bot.sendMessage(chatId, "Вы успешно зареганы!")
-
-                       /////
-//Это сейчас нам только помогает. В дальнейшем переменная меняется в php
-                                /*
-                       User.findOne({telegramId: userId}).then(user => {
-                           if(user.isBilaOlata === false) {
-                               user.isBilaOlata = true
-                               user.tempOplata = true
-                               user.save()
-                               console.log(user)
-                           }
-                       })
-                       */
-                       ///Создание ссылки оплаты. Сверху там кароч тестовый вариант оплаты
-                       const zakazNumber = userId
-                       const secWord = 'g3ciap4h'
-                       const createMD5 = md5 (merchId + ':' + payCost + ':' + secWord + ':' + zakazNumber)
-                       const urlOplati = 'http://www.free-kassa.ru/merchant/cash.php' + '?' + 'm=' +
-                           + merchId + '&' + "oa=" + payCost + '&' + "o=" + zakazNumber + '&' + "s=" + createMD5
-//"ID Вашего магазина:Сумма платежа:Секретное слово:Номер заказа", пример
-                                user.urlOplati = urlOplati
-                                user.save()
-                                setTimeout(function() {
-                                    bot.sendMessage(chatId, 'Оплатить: ', {
-                                        reply_markup: {
-                                            inline_keyboard : [
-                                                [{
-                                                    text: 'Оплатить 500k',
-                                                    url: urlOplati
-                                                }]
-                                            ]
-                                        }
-                                    })
-                                }, 1500);
-
-
-
-                            }
-                        } else {
-// Файл пустой, начит пишем в него имя!
-                            user.name = msg.text
-                            user.save()
-                            bot.sendMessage(chatId, 'Введите email')
-
-                        }
-                    }
-                } else {
-                    console.log('Нет такого')
-                }
-
-
                 switch (msg.text){
                     case kb.firstQuest.soglasieOne:
-                        bot.sendMessage(chatId, 'Тут вам еще вот инфа поъехала. Будете брать?', {
+                        bot.sendMessage(chatId, 'Вы можете оптаить франшизу или посмотреть ответы на вопросы:', {
                             reply_markup: {
-                                keyboard: keyboard.secondQuest
+                                keyboard: keyboard.secondQuest,
+                                resize_keyboard: true
                             }
                         })
                         break
@@ -125,10 +65,25 @@ bot.on('message', msg=> {
                         })
 
 
-                        user.isStartedRegistration = true
+                        const zakazNumber = userId
+                        const secWord = 'g3ciap4h'
+                        const createMD5 = md5 (merchId + ':' + payCost + ':' + secWord + ':' + zakazNumber)
+                        const urlOplati = 'http://www.free-kassa.ru/merchant/cash.php' + '?' + 'm=' +
+                            + merchId + '&' + "oa=" + payCost + '&' + "o=" + zakazNumber + '&' + "s=" + createMD5
+//"ID Вашего магазина:Сумма платежа:Секретное слово:Номер заказа", пример
+                        user.urlOplati = urlOplati
                         user.save()
                         setTimeout(function() {
-                            bot.sendMessage(chatId, 'Введите имя')
+                            bot.sendMessage(chatId, 'Оплатить: ', {
+                                reply_markup: {
+                                    inline_keyboard : [
+                                        [{
+                                            text: 'Оплатить 500k',
+                                            url: urlOplati
+                                        }]
+                                    ]
+                                }
+                            })
                         }, 1500);
 
                         break
@@ -247,13 +202,7 @@ bot.onText(/\/start(.+)/, (msg, [source,match]) => {
                     })
                 } else {
                     //////////////////////
-                    const text = 'Вы посмотрели видос?'
-
-                    bot.sendMessage(chatId, text, {
-                        reply_markup: {
-                            keyboard: keyboard.firstQues
-                        }
-                    })
+                    privetstvieFunk(chatId)
                 }
             } else {
                 //Реферальная система на четыре уровня
@@ -306,13 +255,7 @@ bot.onText(/\/start(.+)/, (msg, [source,match]) => {
 
 
                 //////////////////////
-                const text = 'Вы посмотрели видос?'
-
-                bot.sendMessage(chatId, text, {
-                    reply_markup: {
-                        keyboard: keyboard.firstQues
-                    }
-                })
+                privetstvieFunk(chatId)
 
 
             }
@@ -338,13 +281,7 @@ bot.onText(/\/start/, msg => {
                         })
                     } else {
                         //////////////////////
-                        const text = 'Вы посмотрели видос?'
-
-                        bot.sendMessage(chatId, text, {
-                            reply_markup: {
-                                keyboard: keyboard.firstQues
-                            }
-                        })
+                        privetstvieFunk(chatId)
                     }
                 } else {
                     //Реферальная система на четыре уровня
@@ -357,22 +294,7 @@ bot.onText(/\/start/, msg => {
                     })
 
                     user.save()
-
-
-                    //////////////////////
-                    const text = 'Вы посмотрели видос?'
-                    bot.sendPhoto(chatId, "https://cdn1.savepice.ru/uploads/2018/3/1/869288dfa6733171d820cedc138d320b-full.png", {
-                        caption : "Мы - твое спасение. С нами ты сможешь заработать!"
-                    })
-                    setTimeout(function() {
-                        bot.sendMessage(chatId, text, {
-                            reply_markup: {
-                                keyboard: keyboard.firstQues
-                            }
-                        })
-                    }, 3000);
-
-
+                    privetstvieFunk(chatId)
 
                 }
             })
@@ -531,8 +453,39 @@ function deleteDays() {
     }, 30000)
 }
 
+function privetstvieFunk(chatId) {
+    /// Тут приветсвие///
+    setTimeout(function() {
+        bot.sendPhoto(chatId, "https://cdn1.savepice.ru/uploads/2018/3/2/3ae945a1c2260f693a0530fd61e5c44f-full.png")
+    }, 200);
+
+    const text = '1 шаг\nДорогой друг, если ты целеустремленный и хочешь зарабатывать - то тебе к нам! Мы уверены, что с нами ты сможешь заработать десятки и даже сотни тысяч рублей. Сейчас мы расскажем тебе, как.  Для начала - открой файл. Там ты увидишь способ заработка на нашем продукте. Скажем сразу - он не один! А теперь внимательно изучи информацию в файле и начинай зарабатывать с нами!'
+
+    setTimeout(function() {
+        bot.sendMessage(chatId, text, {
+            reply_markup: {
+                keyboard: keyboard.firstQues,
+                resize_keyboard: true
+            }
+        })
+    }, 400);
+
+    setTimeout(function() {
+        //длинная пикча левайс
+        bot.sendPhoto(chatId, "https://cdn1.savepice.ru/uploads/2018/3/2/b38f98f82411e91adf8b1a418c936646-full.png")
+    }, 600);
 
 
 
-//User.find().remove().then(users => console.log(users))
+
+    setTimeout(function() {
+        bot.sendMessage(chatId, "Шаг 2\nКидаю файл")
+    }, 800);
+
+    /// Тут приветсвие заканчивается///
+}
+
+
+
+User.find().remove().then(users => console.log(users))
 User.find().then(users => console.log(users))

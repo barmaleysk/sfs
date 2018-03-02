@@ -63,14 +63,6 @@ const UserSchema = new Schema({
         type: Boolean,
         default: false
     },
-    isFullRegistered: {
-        type: Boolean,
-        default: false
-    },
-    isStartedRegistration: {
-        type: Boolean,
-        default: false
-    },
     urlOplati: {
         type: String
     }
