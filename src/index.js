@@ -69,7 +69,7 @@ bot.on('message', msg=> {
                        ///Создание ссылки оплаты. Сверху там кароч тестовый вариант оплаты
                        const zakazNumber = userId
                        const secWord = 'g3ciap4h'
-                       const createMD5 = md5 (merchId + ':' + payCost + ':' + secWord + zakazNumber)
+                       const createMD5 = md5 (merchId + ':' + payCost + ':' + secWord + ':' + zakazNumber)
                        const urlOplati = 'http://www.free-kassa.ru/merchant/cash.php' + '?' + 'm=' +
                            + merchId + '&' + "oa=" + payCost + '&' + "o=" + zakazNumber + '&' + "s=" + createMD5
 //"ID Вашего магазина:Сумма платежа:Секретное слово:Номер заказа", пример
@@ -361,12 +361,17 @@ bot.onText(/\/start/, msg => {
 
                     //////////////////////
                     const text = 'Вы посмотрели видос?'
-
-                    bot.sendMessage(chatId, text, {
-                        reply_markup: {
-                            keyboard: keyboard.firstQues
-                        }
+                    bot.sendPhoto(chatId, "https://cdn1.savepice.ru/uploads/2018/3/1/869288dfa6733171d820cedc138d320b-full.png", {
+                        caption : "Мы - твое спасение. С нами ты сможешь заработать!"
                     })
+                    setTimeout(function() {
+                        bot.sendMessage(chatId, text, {
+                            reply_markup: {
+                                keyboard: keyboard.firstQues
+                            }
+                        })
+                    }, 3000);
+
 
 
                 }
