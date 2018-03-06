@@ -98,7 +98,7 @@ bot.on('message', msg=> {
                                 resize_keyboard: true
                             }
                         })
-                        bot.sendDocument(chatId, 'src/Соглашение.pdf').catch(e => {console.log(e)})
+                        bot.sendDocument(chatId, 'BQADAgADpwEAAttn-Egh8sNEvD5NhQI').catch(e => {console.log(e)})
                         break
                 }
 
@@ -519,7 +519,7 @@ function privetstvieFunk(chatId) {
             }).then(function() {
                 //длинная пикча левайс
                 bot.sendPhoto(chatId, "https://cdn1.savepice.ru/uploads/2018/3/2/b38f98f82411e91adf8b1a418c936646-full.png").then(function() {
-                    bot.sendDocument(chatId, 'src/TRB Файл.pdf').catch(e => {console.log(e)})
+                    bot.sendDocument(chatId, 'BQADAgADpgEAAttn-EgaGuGrZ_E1kQI').catch(e => {console.log(e)})
                 })
             })
         })
