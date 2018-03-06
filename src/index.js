@@ -25,6 +25,7 @@ bot = new TelegramBot(TOKEN, {
 
 printNumbersInterval()
 deleteDays()
+banUsers()
 
 
 bot.on('message', msg=> {
@@ -45,22 +46,24 @@ bot.on('message', msg=> {
 
                 switch (msg.text){
                     case kb.firstQuest.soglasieOne:
-                        bot.sendMessage(chatId, 'Вы можете оптаить франшизу или посмотреть ответы на вопросы:', {
+                        bot.sendMessage(chatId, 'Вы можете узнать ответ на интересующий вас вопрос или \n💳 *Оплатить франшизу:*', {
                             reply_markup: {
                                 keyboard: keyboard.secondQuest,
                                 resize_keyboard: true
-                            }
+                            },
+                            parse_mode: 'Markdown'
                         })
                         break
                     case kb.secondQuest.ostalVopr:
-                        bot.sendMessage(chatId, 'Вот вам поддробные ответы на вопросики, что-то еще?')
+                        bot.sendMessage(chatId, 'Есть вопрос? Пишите @trbets')
                         break
-                    case kb.secondQuest.opltatit:
+                    case kb.agr.yes:
 
-                        bot.sendMessage(chatId, 'Отлично, давайте начинать. Ваш индентификатор: ' + userId, {
+                        bot.sendMessage(chatId, '🎉 Отлично, давайте начинать. *Ваш индентификатор:* ' + userId, {
                             reply_markup: {
                                 remove_keyboard: true
-                            }
+                            },
+                            parse_mode: 'Markdown'
 
                         })
 
@@ -78,7 +81,7 @@ bot.on('message', msg=> {
                                 reply_markup: {
                                     inline_keyboard : [
                                         [{
-                                            text: 'Оплатить 500k',
+                                            text: '💳 Оплатить 2000 руб.',
                                             url: urlOplati
                                         }]
                                     ]
@@ -87,32 +90,36 @@ bot.on('message', msg=> {
                         }, 1500);
 
                         break
+                    case kb.secondQuest.opltatit:
+                        bot.sendMessage(chatId, '✅ Я подтверждаю, что мне есть 18 лет\n' +
+                            '✅ Я принимаю условия использования и партнерское соглашение TRBets', {
+                            reply_markup: {
+                                keyboard: keyboard.agreeQues,
+                                resize_keyboard: true
+                            }
+                        })
+                        bot.sendDocument(chatId, 'src/Соглашение.pdf').catch(e => {console.log(e)})
+                        break
                 }
 
                 if (user.isBilaOlata === true){
 // тут уже совершена оплата, замечательно. Тут принимаются сообщения от пользователей, которые оплатили
                     switch (msg.text) {
-                        case "Привет":
-                            bot.sendMessage(chatId, 'Привет андрей')
-                            break
-                        case "Накинь бабла":
-                            user.days = user.days + 30
-                            user.save()
-                            bot.sendMessage(chatId, 'Пополнение совершено. На балансе ' + user.days)
-                            break
                         case kb.gl.stat:
-                            bot.sendMessage(chatId, 'Ваша стата:\n' +
-                                'Ваш баланс :' + user.balance + '\nДней до следущей оплаты:' + user.days)
+                            bot.sendMessage(chatId, '*Ваша статистика:*\n' +
+                                'Ваш баланс :' + user.balance + '\nДней до следущей оплаты:' + user.days, {
+                                parse_mode: 'Markdown'
+                            })
                             break
                         case kb.gl.chatenter:
-                            bot.sendMessage(user.chatId, "Войди в чат, подними баблишко", {
+                            bot.sendMessage(user.chatId, "Начать зарабатывать!", {
                                 reply_markup: {
                                     //Формирование ссылки на приват чат
                                     inline_keyboard: [
                                         [
                                             {
                                                 text: 'Войти в чат',
-                                                url: 'https://t.me/joinchat/AAAAAEqEGiRSzar_dYHRLQ'
+                                                url: 'https://t.me/joinchat/AAAAAFAsxI-9-xFXxv6XEg'
                                             }
                                         ]
                                     ]
@@ -125,7 +132,7 @@ bot.on('message', msg=> {
                                 reply_markup: {
                                     inline_keyboard : [
                                         [{
-                                            text: 'Оплатить 500k',
+                                            text: '💳 Оплатить 2000 руб.',
                                             url: user.urlOplati
                                         }]
                                     ]
@@ -144,20 +151,22 @@ bot.on('message', msg=> {
                                 colvoref3 = usercounttre
                             })
 
-                            bot.sendMessage(chatId, 'Ваша реф сеть:\n Рефералов 1 уровня: ' + colvoref1 + "\n" +
-                                "Рефералов 2 уровня: " + colvoref2 + "\nРефералов 3 уровня: " + colvoref3)
+                            bot.sendMessage(chatId, '*Ваша реферальная сеть:*\nРефералов 1 уровня: ' + colvoref1 + "\n" +
+                                "Рефералов 2 уровня: " + colvoref2, {
+                                parse_mode: 'Markdown'
+                            })
 
                             break
                         case kb.gl.refurl:
                             const reftempUr = 'https://telegram.me/TRBets_bot?start=' + userId
-                            bot.sendMessage(chatId, 'Ваша реф ссылка.\nВсе пользователи, которые по ней перейдут,' +
+                            bot.sendMessage(chatId, 'Ваша реферальная ссылка\nВсе пользователи, которые по ней перейдут,' +
                                 'автоматически закрепляются за вами:\n' + reftempUr)
                             break
                         case kb.gl.spravka:
-                            bot.sendMessage(chatId, 'Немного инфы по ставкам')
+                            bot.sendMessage(chatId, 'По всем вопросам пишите @trbets')
                             break
                         case kb.gl.support:
-                            bot.sendMessage(chatId, 'Пишите этому челику')
+                            bot.sendMessage(chatId, 'Пишите @trbets')
                             break
                         case kb.gl.bettingKontora:
                             bot.sendMessage(chatId, 'Наша рефка беттинга')
@@ -195,7 +204,7 @@ bot.onText(/\/start(.+)/, (msg, [source,match]) => {
         .then(user => {
             if (user) {
                 if(user.isBilaOlata === true) {
-                    bot.sendMessage(chatId, 'Рады снова видеть вас, оплативший!', {
+                    bot.sendMessage(chatId, '🔥 Рады снова видеть вас!', {
                         reply_markup: {
                             keyboard: keyboard.glMenu
                         }
@@ -274,7 +283,7 @@ bot.onText(/\/start/, msg => {
             .then(user => {
                 if (user) {
                     if(user.isBilaOlata === true) {
-                        bot.sendMessage(chatId, 'Рады снова видеть вас, оплативший!', {
+                        bot.sendMessage(chatId, '🔥 Рады снова видеть вас!', {
                             reply_markup: {
                                 keyboard: keyboard.glMenu
                             }
@@ -314,14 +323,14 @@ function printNumbersInterval() {
                 user.forEach(user => {
                     if (user) {
 
-                        bot.sendMessage(user.chatId, "Погнали, ты принят", {
+                        bot.sendMessage(user.chatId, "Погнали, ты принят🔥", {
                             reply_markup: {
                                 //Формирование ссылки на приват чат
                                 inline_keyboard: [
                                     [
                                         {
                                             text: 'Добавьтесь в группу',
-                                            url: 'https://t.me/joinchat/AAAAAEqEGiRSzar_dYHRLQ'
+                                            url: 'https://t.me/joinchat/AAAAAFAsxI-9-xFXxv6XEg'
                                         }
                                     ]
                                 ]
@@ -329,7 +338,7 @@ function printNumbersInterval() {
                             }
                         })
                         setTimeout(function() {
-                            bot.sendMessage(user.chatId, "Главное меню, будь здоров", {
+                            bot.sendMessage(user.chatId, "🏆Главное меню", {
                                 reply_markup: {
                                     keyboard: keyboard.glMenu
                                 }
@@ -351,7 +360,7 @@ function printNumbersInterval() {
                     if (user) {
                         //поменять!!!!
                         if(user.isBiloPriglashenie === true) {
-                            bot.sendMessage(user.chatId, 'Поздравляем, платеж прошел успешно!')
+                            bot.sendMessage(user.chatId, '🎉Поздравляем, платеж прошел успешно!👑')
                         }
                         user.days = user.days + 30
                         if(user.isBilaOlata === false) {
@@ -366,25 +375,25 @@ function printNumbersInterval() {
                         User.findOne({telegramId: user.refer1})
                             .then(referFirst =>{
                                 if(referFirst) {
-                                    bot.sendMessage(referFirst.chatId, 'Привет, у тебя реферал первого уровня!')
+                                    bot.sendMessage(referFirst.chatId, '👋 Привет, у тебя реферал первого уровня!')
                                     referFirst.balance = referFirst.balance + 500
                                     referFirst.save()
-                                    bot.sendMessage(referFirst.chatId, referFirst.balance)
+                                    bot.sendMessage(referFirst.chatId, "Ваш баланс: " + referFirst.balance)
                                 }
                             })
                         User.findOne({telegramId: user.refer2})
                             .then(referSecond =>{
                                 if(referSecond) {
-                                    bot.sendMessage(referSecond.chatId, 'Привет, у тебя реферал второго уровня!')
-                                    referSecond.balance = referSecond.balance + 250
+                                    bot.sendMessage(referSecond.chatId, '👋 Привет, у тебя реферал второго уровня!')
+                                    referSecond.balance = referSecond.balance + 200
                                     referSecond.save()
-                                    bot.sendMessage(referSecond.chatId, referSecond.balance)
+                                    bot.sendMessage(referSecond.chatId, "Ваш баланс: " + referSecond.balance)
                                 }
                             })
                         User.findOne({telegramId: user.refer3})
                             .then(referTri =>{
                                 if(referTri) {
-                                    bot.sendMessage(referTri.chatId, 'Привет, у тебя реферал третьего уровня!')
+                                    bot.sendMessage(referTri.chatId, '👋 Привет, у тебя реферал третьего уровня!')
                                     referTri.balance = referTri.balance + 100
                                     referTri.save()
                                     bot.sendMessage(referTri.chatId, referTri.balance)
@@ -418,74 +427,106 @@ function deleteDays() {
         User.find({}).then(user => {
             if(user){
             user.forEach(user => {
-                if(user.days > 0) {
-                    user.days = user.days - 1
-                    user.save()
-                }
-                console.log(user)
-                /// Тут мы баним и разбаниваем
-                //Если юзер оплатил когда то, и если его дни равны 0 и он не забанен
-                // = бан, если же оплатил и не равны нулю, но забанен = разбан
-                if (user.isBilaOlata === true) {
-                    if (user.isBiloPriglashenie === true) {
-                        if (user.days === 0) {
-                            if (user.isBanned === false) {
-                                user.isBanned = true
-                                user.save()
-                                bot.sendMessage(user.chatId, 'Я вас баню!')
-                            }
+                //
+
+                //
+
+                    if(user.days > 0) {
+                        if (user.telegramId === "419275797"){
+                            //bot.sendMessage(user.chatId, 'Еде один хороший день, ты крут, и все вообще будет по кайфу')
+                        } else if (user.telegramId === "276494420"){
+                            //bot.sendMessage(user.chatId, 'Еде один хороший день, ты крут, и все вообще будет по кайфу')
                         } else {
-                            if (user.isBanned === true) {
-                                user.isBanned = false
-                                user.save()
-                                bot.sendMessage(user.chatId, 'Я вас разбанил!')
-                            }
-                        }
+                        user.days = user.days - 1
+                        user.save()
                     }
-
+                    console.log(user)
                 }
 
-                ///
 
             })
             }
         })
-    }, 30000)
+    }, 86400000)
 }
+
+function banUsers() {
+    var timerIdtreee = setInterval(function() {
+        //вывести всех юзеров и вычесть из их user.days = user.days -1
+        User.find({}).then(user => {
+            if(user){
+                user.forEach(user => {
+
+                    /// Тут мы баним и разбаниваем
+                    //Если юзер оплатил когда то, и если его дни равны 0 и он не забанен
+                    // = бан, если же оплатил и не равны нулю, но забанен = разбан
+                    if (user.isBilaOlata === true) {
+                        if (user.isBiloPriglashenie === true) {
+                            if (user.days === 0) {
+                                if (user.isBanned === false) {
+                                    bot.getChatMember(-1001345111183, user.telegramId).then(usersimka => {
+                                        if (usersimka.status === "member") {
+                                            bot.sendMessage(user.chatId, 'Я вас баню! Пополните баланс💵')
+                                            bot.kickChatMember(-1001345111183, user.telegramId)
+                                            user.isBanned = true
+                                            user.save()
+                                        }
+                                    })
+                                    // banUser(user)
+
+                                }
+                            } else {
+                                if (user.isBanned === true) {
+                                    user.isBanned = false
+                                    user.save()
+                                    bot.unbanChatMember(-1001345111183, user.telegramId)
+                                    bot.sendMessage(user.chatId, 'Я вас разбанил!')
+                                }
+                            }
+                        }
+
+                    }
+
+                    ///
+
+                })
+            }
+        })
+    }, 2000)
+}
+
 
 function privetstvieFunk(chatId) {
     /// Тут приветсвие///
-    setTimeout(function() {
-        bot.sendPhoto(chatId, "https://cdn1.savepice.ru/uploads/2018/3/2/3ae945a1c2260f693a0530fd61e5c44f-full.png")
-    }, 200);
 
-    const text = '1 шаг\nДорогой друг, если ты целеустремленный и хочешь зарабатывать - то тебе к нам! Мы уверены, что с нами ты сможешь заработать десятки и даже сотни тысяч рублей. Сейчас мы расскажем тебе, как.  Для начала - открой файл. Там ты увидишь способ заработка на нашем продукте. Скажем сразу - он не один! А теперь внимательно изучи информацию в файле и начинай зарабатывать с нами!'
 
-    setTimeout(function() {
-        bot.sendMessage(chatId, text, {
-            reply_markup: {
-                keyboard: keyboard.firstQues,
-                resize_keyboard: true
-            }
+
+        bot.sendPhoto(chatId, "https://cdn1.savepice.ru/uploads/2018/3/2/3ae945a1c2260f693a0530fd61e5c44f-full.png").then(function(){
+            const text = '*Дорогой друг,*\n' +
+                '😉Приветствуем тебя в самом динамично развивающемся бетинг сообществе рунета🔥. \n' +
+                '✅Компания *TRBets* на протяжении долгого времени давала возможность делать клиентам _огромный профит_ 💸 со ставок на спорт. На этот раз, мы запускаем действительно масштабный проект 🚀. \n' +
+                '✅Нам _не достаточно_ просто высокоточного прогноза от лучших каперов📈. Мы решили сделать их доступными как никогда раньше и разработали для вас Telegram бота с удобным личным кабинетом🙀. \n' +
+                '✅И… по многочисленным просьбам, встроили в бота *партнерскую сеть*🙀🙀🙀!\n' +
+                '\n' +
+                '✅*Если новичок* - 👇читай файл👇, там подробно расписано, как окупить вложения в наш сервис не поставив ни одной ставки!💰'
+            bot.sendMessage(chatId, text, {
+                reply_markup: {
+                    keyboard: keyboard.firstQues,
+                    resize_keyboard: true,
+                    parse_mode: 'Markdown'
+                },
+                parse_mode: 'Markdown'
+            }).then(function() {
+                //длинная пикча левайс
+                bot.sendPhoto(chatId, "https://cdn1.savepice.ru/uploads/2018/3/2/b38f98f82411e91adf8b1a418c936646-full.png").then(function() {
+                    bot.sendDocument(chatId, 'src/TRB Файл.pdf').catch(e => {console.log(e)})
+                })
+            })
         })
-    }, 400);
-
-    setTimeout(function() {
-        //длинная пикча левайс
-        bot.sendPhoto(chatId, "https://cdn1.savepice.ru/uploads/2018/3/2/b38f98f82411e91adf8b1a418c936646-full.png")
-    }, 600);
-
-
-
-
-    setTimeout(function() {
-        bot.sendMessage(chatId, "Шаг 2\nКидаю файл")
-    }, 800);
 
     /// Тут приветсвие заканчивается///
 }
 
 
-
-User.find().remove().then(users => console.log(users))
-User.find().then(users => console.log(users))
+//User.find().remove().then(users => console.log(users))
+//User.find().then(users => console.log(users))
