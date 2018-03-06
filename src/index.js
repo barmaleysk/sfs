@@ -163,10 +163,10 @@ bot.on('message', msg=> {
                                 'автоматически закрепляются за вами:\n' + reftempUr)
                             break
                         case kb.gl.spravka:
-                            bot.sendMessage(chatId, 'По всем вопросам пишите @trbets')
+                            bot.sendMessage(chatId, 'По всем вопросам пишите @TRBsupport')
                             break
                         case kb.gl.support:
-                            bot.sendMessage(chatId, 'Пишите @trbets')
+                            bot.sendMessage(chatId, 'Пишите @TRBsupport')
                             break
                         case kb.gl.bettingKontora:
                             bot.sendMessage(chatId, 'Наша рефка беттинга')
