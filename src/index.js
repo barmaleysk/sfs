@@ -141,13 +141,13 @@ bot.on('message', msg=> {
                             break
                         case kb.gl.refset:
 
-                            User.count({refer1: userId}).then(userscount => {
+                            User.count({refer1: userId, isBilaOlata: true}).then(userscount => {
                                 colvoref1 = userscount
                             })
-                            User.count({refer2: userId}).then(usercounttwo => {
+                            User.count({refer2: userId, isBilaOlata: true}).then(usercounttwo => {
                                 colvoref2 = usercounttwo
                             })
-                            User.count({refer3: userId}).then(usercounttre => {
+                            User.count({refer3: userId, isBilaOlata: true}).then(usercounttre => {
                                 colvoref3 = usercounttre
                             })
 
