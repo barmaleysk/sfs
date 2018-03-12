@@ -25,11 +25,12 @@ var bodyParser = require('body-parser')
 const ejs = require('ejs')
 // set the view engine to ejs
 app.set('view engine', 'ejs')
+app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/../views');
 app.get('/massrass', function(req, res) {
     res.render('massrass')
 })
-app.listen(8080)
+app.listen(app.get('port'))
 console.log('Server is listening')
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
