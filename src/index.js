@@ -32,7 +32,7 @@ app.get('/massrass', function(req, res) {
 })
 app.listen(0, () => {
     console.log(app.address().port)
-}
+})
 console.log('Server is listening')
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
