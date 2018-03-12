@@ -28,7 +28,7 @@ app.set('view engine', 'ejs')
 app.get('/massrass', function(req, res) {
     res.render('massrass')
 })
-app.listen(3000)
+app.listen(8080)
 console.log('Server is listening')
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
