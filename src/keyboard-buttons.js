@@ -4,7 +4,7 @@ module.exports = {
     },
     secondQuest: {
         opltatit: "💳 Оплатить франшизу",
-        ostalVopr: "❓Остались вопросы"
+        ostalVopr: "😎Посмотреть отзывы и убедиться в надежности прогнозов💪"
     },
     gl:{
         stat: "💸 Баланс",

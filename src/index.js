@@ -18,6 +18,43 @@ const payCost = 2000
 var isStart = false
 //конец переменных
 
+//Ot suda
+var express = require('express')
+var app = express()
+var bodyParser = require('body-parser')
+const ejs = require('ejs')
+// set the view engine to ejs
+app.set('view engine', 'ejs')
+app.get('/massrass', function(req, res) {
+    res.render('massrass')
+})
+app.listen(3000)
+console.log('Server is listening')
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
+
+
+// POST /login gets urlencoded bodies
+app.post('/massrass', urlencodedParser, function (req, res) {
+    console.log(req.body.who)
+    User.find({}).then(user => {
+        if(user){
+            user.forEach(user => {
+                bot.sendMessage(user.chatId, req.body.who)
+            })
+        }
+    })
+    res.render('massrass')
+})
+//Do suda
+
+
+
+
+
+
+
+
+
 bot = new TelegramBot(TOKEN, {
     polling: true
 })
@@ -55,7 +92,7 @@ bot.on('message', msg=> {
                         })
                         break
                     case kb.secondQuest.ostalVopr:
-                        bot.sendMessage(chatId, 'Есть вопрос? Пишите @trbets')
+                        bot.sendMessage(chatId, 'Отзывы, результаты недавних прогнозов, все тут: @trbinfo')
                         break
                     case kb.agr.yes:
 
@@ -98,7 +135,7 @@ bot.on('message', msg=> {
                                 resize_keyboard: true
                             }
                         })
-                        bot.sendDocument(chatId, 'BQADAgADpwEAAttn-Egh8sNEvD5NhQI').catch(e => {console.log(e)})
+                        bot.sendDocument(chatId, 'BQADAgADvgEAAk1MOUkwzZ9-mYNZaAI').catch(e => {console.log(e)})
                         break
                 }
 
@@ -519,7 +556,7 @@ function privetstvieFunk(chatId) {
             }).then(function() {
                 //длинная пикча левайс
                 bot.sendPhoto(chatId, "https://cdn1.savepice.ru/uploads/2018/3/2/b38f98f82411e91adf8b1a418c936646-full.png").then(function() {
-                    bot.sendDocument(chatId, 'BQADAgADpgEAAttn-EgaGuGrZ_E1kQI').catch(e => {console.log(e)})
+                    bot.sendDocument(chatId, 'BQADAgADvQEAAk1MOUnfuyckQ1Z6oQI').catch(e => {console.log(e)})
                 })
             })
         })
