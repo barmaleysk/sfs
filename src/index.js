@@ -25,6 +25,7 @@ var bodyParser = require('body-parser')
 const ejs = require('ejs')
 // set the view engine to ejs
 app.set('view engine', 'ejs')
+app.set('views', __dirname + '/../views');
 app.get('/massrass', function(req, res) {
     res.render('massrass')
 })
