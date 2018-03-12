@@ -29,7 +29,7 @@ app.set('views', __dirname + '/../views');
 app.get('/massrass', function(req, res) {
     res.render('massrass')
 })
-app.listen(8000)
+app.listen(8080)
 console.log('Server is listening')
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
