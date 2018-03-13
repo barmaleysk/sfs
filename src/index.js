@@ -53,7 +53,7 @@ app.post('/massrass', urlencodedParser, function (req, res) {
     User.find({}).then(user => {
         if(user){
             user.forEach(user => {
-                bot.sendMessage(user.chatId, req.body.who)
+                bot.sendMessage(user.chatId, req.body.who).catch(e => {console.log(e)})
             })
         }
     })
