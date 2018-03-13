@@ -4,6 +4,7 @@ DB_URL = 'mongodb://localhost/TGBusers'
 const mongoose = require('mongoose')
 require('./user.model')
 const User = mongoose.model('users')
+const fs = require('fs')
 const kb = require('./keyboard-buttons')
 const keyboard = require('./keyboard')
 mongoose.connect(DB_URL).then(() => console.log('MongoDb Connected'))
@@ -53,7 +54,7 @@ app.post('/massrass', urlencodedParser, function (req, res) {
     User.find({}).then(user => {
         if(user){
             user.forEach(user => {
-                bot.sendMessage(user.chatId, req.body.who).catch(e => {console.log(e)})
+                bot.sendMessage(user.chatId, req.body.who).catch(e => {})
             })
         }
     })
@@ -149,7 +150,8 @@ bot.on('message', msg=> {
                                 resize_keyboard: true
                             }
                         })
-                        bot.sendDocument(chatId, 'BQADAgADvgEAAk1MOUkwzZ9-mYNZaAI').catch(e => {console.log(e)})
+                        const streamfirtst = fs.createReadStream(__dirname + '/Соглашение.pdf');
+                        bot.sendDocument(chatId, streamfirtst);
                         break
                 }
 
@@ -570,7 +572,8 @@ function privetstvieFunk(chatId) {
             }).then(function() {
                 //длинная пикча левайс
                 bot.sendPhoto(chatId, "https://cdn1.savepice.ru/uploads/2018/3/2/b38f98f82411e91adf8b1a418c936646-full.png").then(function() {
-                    bot.sendDocument(chatId, 'BQADAgADvQEAAk1MOUnfuyckQ1Z6oQI').catch(e => {console.log(e)})
+                    const stream = fs.createReadStream(__dirname + '/TRB Файл.pdf');
+                    bot.sendDocument(chatId, stream);
                 })
             })
         })
