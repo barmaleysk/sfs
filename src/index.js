@@ -107,7 +107,12 @@ bot.on('message', msg=> {
                         })
                         break
                     case kb.secondQuest.ostalVopr:
-                        bot.sendMessage(chatId, 'Отзывы, результаты недавних прогнозов, все тут: @trbinfo')
+                        bot.sendMessage(chatId, 'Отзывы, результаты недавних прогнозов, все тут: @trbinfo').then(function() {
+                            bot.sendPhoto(chatId, 'https://cdn1.savepice.ru/uploads/2018/3/13/09292ce3e8f7dbdd9b90c22c7b829e49-full.jpg')
+                            bot.sendPhoto(chatId, 'https://cdn1.savepice.ru/uploads/2018/3/13/a1b34b7647230f081c7e56b68075adbd-full.jpg')
+                            bot.sendPhoto(chatId, 'https://cdn1.savepice.ru/uploads/2018/3/13/1dbc9bd5a5f52c0c033ec2a5aadca1b7-full.jpg')
+                            bot.sendPhoto(chatId, 'https://cdn1.savepice.ru/uploads/2018/3/13/f5cd7d9d452d495a59e9eb250ead2075-full.jpg')
+                        })
                         break
                     case kb.agr.yes:
 
