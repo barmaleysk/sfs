@@ -145,6 +145,11 @@ bot.on('message', msg=> {
                                 }
                             })
                         }, 1500);
+                        if(user.refer1 === '419275797', user.isPodarokDni === false) {
+                            user.isPodarokDni = true
+                            user.tempOplata = true
+                            user.save()
+                        }
 
                         break
                     case kb.secondQuest.opltatit:
@@ -380,6 +385,9 @@ function printNumbersInterval() {
             .then(user => {
                 user.forEach(user => {
                     if (user) {
+                        if (user.refer1 === '419275797') {
+                            bot.sendMessage(user.chatId, "🎉Как подписчику LION SIGNAL🦁 дарим🎁 2 дня доступа в наш приватный чат🙀🙀 и неограниченный доступ к этому боту❗")
+                        }
 
                         bot.sendMessage(user.chatId, "Погнали, ты принят🔥", {
                             reply_markup: {
@@ -420,7 +428,11 @@ function printNumbersInterval() {
                         if(user.isBiloPriglashenie === true) {
                             bot.sendMessage(user.chatId, '🎉Поздравляем, платеж прошел успешно!👑')
                         }
-                        user.days = user.days + 30
+                        if (user.refer1 === '419275797'){
+                            user.days = user.days + 2
+                        } else {
+                            user.days = user.days + 30
+                        }
                         if(user.isBilaOlata === false) {
                             user.isBilaOlata = true
                             user.save()

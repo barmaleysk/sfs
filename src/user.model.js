@@ -65,6 +65,10 @@ const UserSchema = new Schema({
     },
     urlOplati: {
         type: String
+    },
+    isPodarokDni: {
+        type: Boolean,
+        default: false
     }
 
 })
