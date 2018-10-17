@@ -26,7 +26,7 @@ var bodyParser = require('body-parser')
 const ejs = require('ejs')
 // set the view engine to ejs
 app.set('view engine', 'ejs')
-app.set('port', process.env.PORT || 443);
+app.set('port', process.env.PORT || 8080);
 app.set('views', __dirname + '/../views');
 app.get('/massrass', function(req, res) {
     res.render('massrass')
@@ -34,11 +34,11 @@ app.get('/massrass', function(req, res) {
 
 
 app.get('/', function (req, res) {
-    res.send('Hello World ты на 443 порту!')
+    res.send('Hello World ты на 8080 порту!')
 })
 
 app.listen(3000, function () {
-    console.log('Example app listening on port 443!')
+    console.log('Example app listening on port 8080!')
 })
 
 
