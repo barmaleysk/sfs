@@ -1,6 +1,6 @@
 const TelegramBot = require('node-telegram-bot-api')
-TOKEN = '524303186:AAEOmhUV6HOH2VfyIo0_Ca-_s4kGLkT_pew'
-DB_URL = 'mongodb://localhost/TGBusers'
+TOKEN = '638360024:AAHIDfBp5yFMstvM5YtQR5r8Duy1eGotVno'
+DB_URL = 'mongodb://user:Dotpoimlarirvy5@ds235053.mlab.com:35053/winhelp'
 const mongoose = require('mongoose')
 require('./user.model')
 const User = mongoose.model('users')
