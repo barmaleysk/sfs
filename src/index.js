@@ -34,11 +34,11 @@ app.get('/massrass', function(req, res) {
 
 
 app.get('/', function (req, res) {
-    res.send('Hello World ты на 3000 порту!')
+    res.send('Hello World ты на 5000 порту!')
 })
 
 app.listen(3000, function () {
-    console.log('Example app listening on port 3000!')
+    console.log('Example app listening on port 5000!')
 })
 
 
